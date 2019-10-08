@@ -12,8 +12,9 @@ public class Fila {
 	private int tempoAtendimentoMin;
 	private int tempoAtendimentoMax;
 	private int agora;//fila atual
+	private String nomeFila;
 
-	public Fila(int servidores, int cap, int tempoChegadaMin, int tempoChegadaMax, int tempoAtendimentoMin,	int tempoAtendimentoMax) {
+	public Fila(int servidores, int cap, int tempoChegadaMin, int tempoChegadaMax, int tempoAtendimentoMin,	int tempoAtendimentoMax, String nomeFila) {
 		this.servidores = servidores;
 		this.cap = cap;
 		this.tempoChegadaMin = tempoChegadaMin;
@@ -21,6 +22,15 @@ public class Fila {
 		this.tempoAtendimentoMin = tempoAtendimentoMin;
 		this.tempoAtendimentoMax = tempoAtendimentoMax;
 		this.agora = 0;
+		this.nomeFila = nomeFila;
+	}
+
+	public String getNomeFila() {
+		return nomeFila;
+	}
+
+	public void setNomeFila(String nomeFila) {
+		this.nomeFila = nomeFila;
 	}
 
 	public int getServidores() {
@@ -81,7 +91,7 @@ public class Fila {
 
 	@Override
 	public String toString() {
-		return "Fila [servidores=" + servidores + ", cap=" + cap + ", tempoChegadaMin=" + tempoChegadaMin
+		return "["+nomeFila+ ": servidores=" + servidores + ", cap=" + cap + ", tempoChegadaMin=" + tempoChegadaMin
 				+ ", tempoChegadaMax=" + tempoChegadaMax + ", tempoAtendimentoMin=" + tempoAtendimentoMin
 				+ ", tempoAtendimentoMax=" + tempoAtendimentoMax + ", agora=" + agora + "]";
 	}

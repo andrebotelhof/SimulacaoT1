@@ -4,7 +4,9 @@ import java.util.Scanner;
 public class simulador {
 	static Scanner entrada = new Scanner(System.in);
 	static GeradorNumerosAleatorios ger = new GeradorNumerosAleatorios();
-	static Fila fila;
+	static Fila fila1;
+	static Fila fila2;
+	static Fila fila3;
 	static ArrayList<Double> estadoFila = new ArrayList<>();
 	static ArrayList<Evento> listaEvento = new ArrayList<>();
 	static ArrayList<Double> numerosAleatorios = new ArrayList<>();
@@ -14,22 +16,53 @@ public class simulador {
 
 	public static void main(String[] args) {
 
-		System.out.println("Digite a quantidade de servidores da fila: ");
-		int serv = entrada.nextInt();
-		System.out.println("Digite a capacidade maxima da fila: ");
-		int capa = entrada.nextInt();
-		System.out.println("Digite o tempo de chegada min: ");
-		int cheMin = entrada.nextInt();
-		System.out.println("Digite o tempo de chegada max: ");
-		int cheMax = entrada.nextInt();
-		System.out.println("Digite o tempo de atendimento min: ");
-		int ateMin = entrada.nextInt();
-		System.out.println("Digite o tempo de atendimento max: ");
-		int ateMax = entrada.nextInt();
+		System.out.println("Digite a quantidade de servidores da 1ª fila: ");
+		int serv1 = entrada.nextInt();
+		System.out.println("Digite a capacidade maxima da 1ª fila: (0 para infinito)");
+		int capa1 = entrada.nextInt();
+		System.out.println("Digite o tempo de chegada min da 1ª fila: ");
+		int cheMin1 = entrada.nextInt();
+		System.out.println("Digite o tempo de chegada max da 1ª fila: ");
+		int cheMax1 = entrada.nextInt();
+		System.out.println("Digite o tempo de atendimento min da 1ª fila: ");
+		int ateMin1 = entrada.nextInt();
+		System.out.println("Digite o tempo de atendimento max da 1ª fila: ");
+		int ateMax1 = entrada.nextInt();
+		
+		System.out.println("Digite a probabilidade de sair da 1ª fila e ir embora: ");
+		int probEmbora1 = entrada.nextInt();
+		
+		System.out.println("Digite a quantidade de servidores da 2ª fila: ");
+		int serv2 = entrada.nextInt();
+		System.out.println("Digite a capacidade maxima da 2ª fila: (0 para infinito)");
+		int capa2 = entrada.nextInt();
+		System.out.println("Digite o tempo de atendimento min da 1ª fila: ");
+		int ateMin2 = entrada.nextInt();
+		System.out.println("Digite o tempo de atendimento max da 1ª fila: ");
+		int ateMax2 = entrada.nextInt();
 
-		fila = new Fila(serv, capa, cheMin, cheMax, ateMin, ateMax);
+		System.out.println("Digite a probabilidade de sair da 1ª fila e ir embora: ");
+		int probEmbora2 = entrada.nextInt();
+		
+		System.out.println("Digite a quantidade de servidores da 3ª fila: ");
+		int serv3 = entrada.nextInt();
+		System.out.println("Digite a capacidade maxima da 3ª fila: (0 para infinito)");
+		int capa3 = entrada.nextInt();
+		System.out.println("Digite o tempo de atendimento min da 3ª fila: ");
+		int ateMin3 = entrada.nextInt();
+		System.out.println("Digite o tempo de atendimento max da 3ª fila: ");
+		int ateMax3 = entrada.nextInt();
 
-		System.out.println(fila.toString());
+		
+		fila1 = new Fila(serv1, capa1, cheMin1, cheMax1, ateMin1, ateMax1, "Fila 1");
+		
+		fila2 = new Fila(serv2, capa2, ateMin1, ateMax1, ateMin2, ateMax2, "Fila 2");
+	
+		fila3 = new Fila(serv3, capa3, ateMin2, ateMax2, ateMin3, ateMax3, "Fila 3");
+
+		System.out.println(fila1.toString());
+		System.out.println(fila2.toString());
+		System.out.println(fila3.toString());
 
 		// setup das demais configs
 		System.out.println("Digite o estado inicial de chegada: ");
@@ -114,7 +147,7 @@ public class simulador {
 		}
 	}
 
-	private static void chegada(double tempo) {
+	private static void ch1(double tempo) {
 		int posFila = fila.getAgora();
 		contabilizaTempo(tempo);
 
@@ -127,7 +160,34 @@ public class simulador {
 		agendaChegada();
 	}
 
-	private static void saida(double tempo) {
+	private static void p12(double tempo) {
+		contabilizaTempo(tempo);
+		int posFila = fila.getAgora();
+		fila.setAgora(posFila - 1);
+		if (fila.getAgora() >= fila.getServidores()) {
+			agendaSaida();
+		}
+	}
+	
+	private static void p23(double tempo) {
+		contabilizaTempo(tempo);
+		int posFila = fila.getAgora();
+		fila.setAgora(posFila - 1);
+		if (fila.getAgora() >= fila.getServidores()) {
+			agendaSaida();
+		}
+	}
+	
+	private static void sa1(double tempo) {
+		contabilizaTempo(tempo);
+		int posFila = fila.getAgora();
+		fila.setAgora(posFila - 1);
+		if (fila.getAgora() >= fila.getServidores()) {
+			agendaSaida();
+		}
+	}
+	
+	private static void sa2(double tempo) {
 		contabilizaTempo(tempo);
 		int posFila = fila.getAgora();
 		fila.setAgora(posFila - 1);
@@ -156,7 +216,7 @@ public class simulador {
 
 	private static void contabilizaTempo(double tempo) {
 
-		int aux = fila.getAgora();
+		int aux = fila1.getAgora();
 
 		double tempoAnterior = tempoDecorrido;
 		tempoDecorrido = tempo;
