@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Fila {
 
 // Filas g/g/x/y
@@ -14,6 +16,7 @@ public class Fila {
 	private int agora;//fila atual
 	private String nomeFila;
 	private boolean finita;
+	private ArrayList<Double> estadoFila = new ArrayList<>();
 
 	public Fila(int servidores, int cap, int tempoChegadaMin, int tempoChegadaMax, int tempoAtendimentoMin,	int tempoAtendimentoMax, String nomeFila, boolean finita) {
 		this.servidores = servidores;
@@ -27,6 +30,14 @@ public class Fila {
 		this.finita = finita;
 	}
 
+	public void setEstado(int index, double valor) {
+		estadoFila.set(index, valor);
+	}
+	
+	public void addEstadoFila(Double d) {
+		estadoFila.add(d);
+	}
+	
 	public String getNomeFila() {
 		return nomeFila;
 	}
@@ -96,5 +107,13 @@ public class Fila {
 		return "["+nomeFila+ ": servidores=" + servidores + ", cap=" + cap + ", tempoChegadaMin=" + tempoChegadaMin
 				+ ", tempoChegadaMax=" + tempoChegadaMax + ", tempoAtendimentoMin=" + tempoAtendimentoMin
 				+ ", tempoAtendimentoMax=" + tempoAtendimentoMax + ", agora=" + agora + "]";
+	}
+
+	public ArrayList<Double> getEstadoFila() {
+		return estadoFila;
+	}
+
+	public void setEstadoFila(ArrayList<Double> estadoFila) {
+		this.estadoFila = estadoFila;
 	}
 }
