@@ -7,7 +7,9 @@ public class simulador {
 	static Fila fila1;
 	static Fila fila2;
 	static Fila fila3;
-	static ArrayList<Double> estadoFila = new ArrayList<>();
+	static ArrayList<Double> estadoFila1 = new ArrayList<>();
+	static ArrayList<Double> estadoFila2 = new ArrayList<>();
+	static ArrayList<Double> estadoFila3 = new ArrayList<>();
 	static ArrayList<Evento> listaEvento = new ArrayList<>();
 	static ArrayList<Double> numerosAleatorios = new ArrayList<>();
 	static double tempoTotal = 0; // diferenca entre tempos

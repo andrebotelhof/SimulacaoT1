@@ -13,8 +13,9 @@ public class Fila {
 	private int tempoAtendimentoMax;
 	private int agora;//fila atual
 	private String nomeFila;
+	private boolean finita;
 
-	public Fila(int servidores, int cap, int tempoChegadaMin, int tempoChegadaMax, int tempoAtendimentoMin,	int tempoAtendimentoMax, String nomeFila) {
+	public Fila(int servidores, int cap, int tempoChegadaMin, int tempoChegadaMax, int tempoAtendimentoMin,	int tempoAtendimentoMax, String nomeFila, boolean finita) {
 		this.servidores = servidores;
 		this.cap = cap;
 		this.tempoChegadaMin = tempoChegadaMin;
@@ -23,6 +24,7 @@ public class Fila {
 		this.tempoAtendimentoMax = tempoAtendimentoMax;
 		this.agora = 0;
 		this.nomeFila = nomeFila;
+		this.finita = finita;
 	}
 
 	public String getNomeFila() {
