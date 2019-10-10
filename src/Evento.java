@@ -1,10 +1,11 @@
 public class Evento {
 	private Tipo tipo;
 	private double tempo;
+	private boolean exec = false;
 	
 	public Evento(Tipo tipo, double tempo) {
 		super();
-		this.tipo = tipo;
+		this.setTipo(tipo);
 		this.tempo = tempo;
 	}
 
@@ -16,5 +17,29 @@ public class Evento {
 
 	public void setTempo(double tempo) {
 		this.tempo = tempo;
+	}
+
+
+
+	public boolean isExec() {
+		return exec;
+	}
+
+
+
+	public void setExec(boolean exec) {
+		this.exec = exec;
+	}
+
+
+
+	public Tipo getTipo() {
+		return tipo;
+	}
+
+
+
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
 	}
 }
