@@ -17,6 +17,7 @@ public class Fila {
 	private String nomeFila;
 	private boolean finita;
 	private ArrayList<Double> estadoFila = new ArrayList<>();
+	private int qtdPerda = 0;
 
 	public Fila(int servidores, int cap, int tempoChegadaMin, int tempoChegadaMax, int tempoAtendimentoMin,	int tempoAtendimentoMax, String nomeFila, boolean finita) {
 		this.servidores = servidores;
@@ -28,6 +29,10 @@ public class Fila {
 		this.agora = 0;
 		this.nomeFila = nomeFila;
 		this.finita = finita;
+	}
+	
+	public void maisUmaPerda() {
+		qtdPerda++;
 	}
 
 	public void setEstado(int index, double valor) {
