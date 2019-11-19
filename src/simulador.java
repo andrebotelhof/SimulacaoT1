@@ -40,7 +40,7 @@ public class simulador {
 		probEmbora1 = 0.3;// entrada.nextInt();
 
 		// System.out.println("Digite a quantidade de servidores da 2� fila: ");
-		int serv2 = 3;// entrada.nextInt();
+		int serv2 = 2;// entrada.nextInt();
 		// System.out.println("Digite a capacidade maxima da 2� fila: (0 para
 		// infinito)");
 		int capa2 = 5;// entrada.nextInt();
@@ -54,7 +54,7 @@ public class simulador {
 
 		// System.out.println("Digite a probabilidade de sair da 2� fila e ir embora:
 		// ");
-		probEmbora2 = 0.5;// entrada.nextInt();
+		probEmbora2 = 0.2;// entrada.nextInt();
 
 		// System.out.println("Digite a quantidade de servidores da 3� fila: ");
 		int serv3 = 3;// entrada.nextInt();
@@ -289,8 +289,8 @@ public class simulador {
 		double tempoAux3 = (fila3.getEstadoFila().get(aux3) + posTemAux);
 
 		fila1.setEstado(aux1, tempoAux1);
-		fila2.setEstado(aux1, tempoAux2);
-		fila3.setEstado(aux1, tempoAux3);
+		fila2.setEstado(aux2, tempoAux2);
+		fila3.setEstado(aux3, tempoAux3);
 	}
 
 	// filaSimples(fila, estInic);
