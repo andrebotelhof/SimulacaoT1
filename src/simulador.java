@@ -12,7 +12,9 @@ public class simulador {
 	static int contAleatUsado = 0;
 	static double tempoTotal = 0; // diferenca entre tempos
 	static double tempoDecorrido = 0; // tempo real
-	static int perda = 0; // qnts chegadas cairam
+	static int perda1 = 0; // qnts chegadas cairam
+	static int perda2 = 0;
+	static int perda3 = 0;
 	static double probEmbora1 = 0;
 	static double probEmbora2 = 0;
 
@@ -127,35 +129,48 @@ public class simulador {
 			} else if (vaiRoda.getTipo().equals(Tipo.SA3)) {
 				sa3(vaiRoda.getTempo());
 			}
-			
+
 			int index = listaEvento.indexOf(vaiRoda);
 			vaiRoda.setExec(true);
 			listaEvento.add(index, vaiRoda);
-		
+
+		}
+
+		int i = 0;
+		System.out.println("----- FILA 1: -----");
+		ArrayList<Double> array = fila1.getEstadoFila();
+		for (i = 0; i < array.size(); i++) {
+			System.out.println("Tempo total que ficou com " + i + " pessoas: " + array.get(i));
+			System.out.println("Probabilidade de estar com " + i + " pessoas: " + calculaTempoFila(array.get(i)) + "%");
+		}
+		System.out.println("Quantidade de perdas da fila 1: " + fila1.getQtdPerda());
+		int i2 = 0;
+		System.out.println("----- FILA 2: -----");
+		ArrayList<Double> array2 = fila2.getEstadoFila();
+		for (i2 = 0; i2 < array2.size(); i2++) {
+			System.out.println("Tempo total que ficou com " + i2 + " pessoas: " + array2.get(i2));
+			System.out.println("Probabilidade de estar com " + i2 + " pessoas: " + calculaTempoFila(array2.get(i2)) + "%");
+		}
+		System.out.println("Quantidade de perdas da fila 2: " + fila2.getQtdPerda());
+		int i3 = 0;
+		System.out.println("----- FILA 3: -----");
+		ArrayList<Double> array3 = fila3.getEstadoFila();
+		for (i3 = 0; i3 < array3.size(); i3++) {
+			System.out.println("Tempo total que ficou com " + i3 + " pessoas: " + array3.get(i3));
+			System.out.println("Probabilidade de estar com " + i3+ " pessoas: "+ calculaTempoFila(array3.get(i3)) + "%");
+		}
+		System.out.println("Quantidade de perdas da fila 3: " + fila3.getQtdPerda());
 
 	}
-
-	int i = 0;System.out.println("----- FILA 1: -----");
-	ArrayList<Double> array = fila1.getEstadoFila();for(i=0;i<array.size();i++)
-	{
-		System.out.println("Tempo total que ficou com " + i + " pessoas: " + array.get(i));
-	}
-	int i2 = 0;System.out.println("----- FILA 2: -----");
-	ArrayList<Double> array2 = fila2.getEstadoFila();for(i2=0;i2<array2.size();i2++)
-	{
-		System.out.println("Tempo total que ficou com " + i2 + " pessoas: " + array2.get(i2));
-	}
-	int i3 = 0;System.out.println("----- FILA 3: -----");
-	ArrayList<Double> array3 = fila3.getEstadoFila();for(i3=0;i3<array3.size();i3++)
-	{
-		System.out.println("Tempo total que ficou com " + i3 + " pessoas: " + array3.get(i3));
+	
+	public static String calculaTempoFila(double x) {
+		double tempo = 100 * x / tempoDecorrido;
+		return format(tempo);
 	}
 
-	// for (Evento e : listaEvento) {
-
-	// }
-
-	}
+	public static String format(double x) {
+		return String.format("%.2f", x);
+		}
 
 	private static void ch1(double tempo) {
 		int posFila = fila1.getAgora();
@@ -163,21 +178,21 @@ public class simulador {
 		if (fila1.getAgora() < fila1.getCap()) {
 			fila1.setAgora(posFila + 1);
 			if (fila1.getAgora() <= fila1.getServidores()) {
-				if ((contAleatUsado < numerosAleatorios.size()) && (numerosAleatorios.get(contAleatUsado) < (1 - probEmbora1))) {
+				if ((contAleatUsado < numerosAleatorios.size())
+						&& (numerosAleatorios.get(contAleatUsado) < (1 - probEmbora1))) {
 					contAleatUsado++;
-					double temp = tempo+rnd(fila1.getTempoAtendimentoMax(),fila1.getTempoAtendimentoMin());
+					double temp = tempo + rnd(fila1.getTempoAtendimentoMax(), fila1.getTempoAtendimentoMin());
 					listaEvento.add(new Evento(Tipo.P12, temp));
 				} else {
 					contAleatUsado++;
-					double temp = tempo+rnd(fila1.getTempoAtendimentoMax(),fila1.getTempoAtendimentoMin());
+					double temp = tempo + rnd(fila1.getTempoAtendimentoMax(), fila1.getTempoAtendimentoMin());
 					listaEvento.add(new Evento(Tipo.SA1, temp));
 				}
 			}
 		} else {
 			fila1.maisUmaPerda();
 		}
-		listaEvento.add(new Evento(Tipo.CH1,tempo+rnd(fila1.getTempoChegadaMax(),fila1.getTempoAtendimentoMin())));
-		
+		listaEvento.add(new Evento(Tipo.CH1, tempo + rnd(fila1.getTempoChegadaMax(), fila1.getTempoAtendimentoMin())));
 	}
 
 	private static void sa1(double tempo) {
@@ -185,13 +200,14 @@ public class simulador {
 		contabilizaTempo(tempo);
 		fila1.setAgora(posFila1 - 1);
 		if (fila1.getAgora() >= fila1.getServidores()) {
-			if ((contAleatUsado < numerosAleatorios.size()) && (numerosAleatorios.get(contAleatUsado) < (1 - probEmbora1))) {
+			if ((contAleatUsado < numerosAleatorios.size())
+					&& (numerosAleatorios.get(contAleatUsado) < (1 - probEmbora1))) {
 				contAleatUsado++;
-				double temp = tempo+rnd(fila1.getTempoAtendimentoMax(),fila1.getTempoAtendimentoMin());
+				double temp = tempo + rnd(fila1.getTempoAtendimentoMax(), fila1.getTempoAtendimentoMin());
 				listaEvento.add(new Evento(Tipo.P12, temp));
 			} else {
 				contAleatUsado++;
-				double temp = tempo+rnd(fila1.getTempoAtendimentoMax(),fila1.getTempoAtendimentoMin());
+				double temp = tempo + rnd(fila1.getTempoAtendimentoMax(), fila1.getTempoAtendimentoMin());
 				listaEvento.add(new Evento(Tipo.SA1, temp));
 			}
 		}
@@ -202,13 +218,14 @@ public class simulador {
 		contabilizaTempo(tempo);
 		fila2.setAgora(posFila2 - 1);
 		if (fila2.getAgora() >= fila2.getServidores()) {
-			if ((contAleatUsado < numerosAleatorios.size()) && (numerosAleatorios.get(contAleatUsado) < (1 - probEmbora2))) {
+			if ((contAleatUsado < numerosAleatorios.size())
+					&& (numerosAleatorios.get(contAleatUsado) < (1 - probEmbora2))) {
 				contAleatUsado++;
-				double temp = tempo+rnd(fila2.getTempoAtendimentoMax(),fila2.getTempoAtendimentoMin());
+				double temp = tempo + rnd(fila2.getTempoAtendimentoMax(), fila2.getTempoAtendimentoMin());
 				listaEvento.add(new Evento(Tipo.P23, temp));
 			} else {
 				contAleatUsado++;
-				double temp = tempo+rnd(fila2.getTempoAtendimentoMax(),fila2.getTempoAtendimentoMin());
+				double temp = tempo + rnd(fila2.getTempoAtendimentoMax(), fila2.getTempoAtendimentoMin());
 				listaEvento.add(new Evento(Tipo.SA2, temp));
 			}
 		}
@@ -219,9 +236,8 @@ public class simulador {
 		contabilizaTempo(tempo);
 		fila3.setAgora(posFila3 - 1);
 		if (fila3.getAgora() >= fila3.getServidores()) {
-				double temp = tempo+rnd(fila3.getTempoAtendimentoMax(),fila3.getTempoAtendimentoMin());
-				listaEvento.add(new Evento(Tipo.SA3, temp));
-			
+			double temp = tempo + rnd(fila3.getTempoAtendimentoMax(), fila3.getTempoAtendimentoMin());
+			listaEvento.add(new Evento(Tipo.SA3, temp));
 		}
 	}
 
@@ -231,19 +247,22 @@ public class simulador {
 		contabilizaTempo(tempo);
 		fila1.setAgora(posFila1 - 1);
 		if (fila1.getAgora() >= fila1.getServidores()) {
-			if ((contAleatUsado < numerosAleatorios.size()) && (numerosAleatorios.get(contAleatUsado) < (1 - probEmbora1))) {
+			if ((contAleatUsado < numerosAleatorios.size())
+					&& (numerosAleatorios.get(contAleatUsado) < (1 - probEmbora1))) {
 				contAleatUsado++;
-				double temp = tempo+rnd(fila1.getTempoAtendimentoMax(),fila1.getTempoAtendimentoMin());
+				double temp = tempo + rnd(fila1.getTempoAtendimentoMax(), fila1.getTempoAtendimentoMin());
 				listaEvento.add(new Evento(Tipo.P12, temp));
 			} else {
 				contAleatUsado++;
-				double temp = tempo+rnd(fila1.getTempoAtendimentoMax(),fila1.getTempoAtendimentoMin());
+				double temp = tempo + rnd(fila1.getTempoAtendimentoMax(), fila1.getTempoAtendimentoMin());
 				listaEvento.add(new Evento(Tipo.SA1, temp));
 			}
+		} else {
+			fila2.maisUmaPerda();
 		}
 		fila2.setAgora(posFila2 + 1);
 		if (fila2.getAgora() <= fila2.getServidores()) {
-			double temp2 = tempo+rnd(fila2.getTempoAtendimentoMax(),fila2.getTempoAtendimentoMin());
+			double temp2 = tempo + rnd(fila2.getTempoAtendimentoMax(), fila2.getTempoAtendimentoMin());
 			listaEvento.add(new Evento(Tipo.SA2, temp2));
 		}
 	}
@@ -254,26 +273,29 @@ public class simulador {
 		contabilizaTempo(tempo);
 		fila2.setAgora(posFila2 - 1);
 		if (fila2.getAgora() >= fila2.getServidores()) {
-			if ((contAleatUsado < numerosAleatorios.size()) && (numerosAleatorios.get(contAleatUsado) < (1 - probEmbora2))) {
+			if ((contAleatUsado < numerosAleatorios.size())
+					&& (numerosAleatorios.get(contAleatUsado) < (1 - probEmbora2))) {
 				contAleatUsado++;
-				double temp = tempo+rnd(fila2.getTempoAtendimentoMax(),fila2.getTempoAtendimentoMin());
+				double temp = tempo + rnd(fila2.getTempoAtendimentoMax(), fila2.getTempoAtendimentoMin());
 				listaEvento.add(new Evento(Tipo.P23, temp));
 			} else {
 				contAleatUsado++;
-				double temp = tempo+rnd(fila2.getTempoAtendimentoMax(),fila2.getTempoAtendimentoMin());
+				double temp = tempo + rnd(fila2.getTempoAtendimentoMax(), fila2.getTempoAtendimentoMin());
 				listaEvento.add(new Evento(Tipo.SA2, temp));
 			}
+		} else {
+			fila3.maisUmaPerda();
 		}
 		fila3.setAgora(posFila3 + 1);
 		if (fila3.getAgora() <= fila3.getServidores()) {
-			double temp2 = tempo+rnd(fila3.getTempoAtendimentoMax(),fila3.getTempoAtendimentoMin());
+			double temp2 = tempo + rnd(fila3.getTempoAtendimentoMax(), fila3.getTempoAtendimentoMin());
 			listaEvento.add(new Evento(Tipo.SA3, temp2));
 		}
 	}
 
 	private static double rnd(double a, double b) {
 		contAleatUsado++;
-		return ((b - a) * numerosAleatorios.get(contAleatUsado-1)) + a;
+		return ((b - a) * numerosAleatorios.get(contAleatUsado - 1)) + a;
 	}
 
 	private static void contabilizaTempo(double tempo) {
@@ -292,103 +314,4 @@ public class simulador {
 		fila2.setEstado(aux2, tempoAux2);
 		fila3.setEstado(aux3, tempoAux3);
 	}
-
-	// filaSimples(fila, estInic);
-	/*
-	 * for (int i = 0; i <= fila.getCap(); i++) {
-	 * 
-	 * System.out.println("Tempo total que " + i + " ficaram na fila: " +
-	 * estadoFila.get(i)); } System.out.println("perdas: " + perda);
-	 * System.out.println("tempo Total: " + tempoDecorrido); }
-	 */
-	/*
-	 * 
-	 * private static void filaSimples(Fila fi, double inicio) { tempoDecorrido = 0;
-	 * chegada(inicio); double menorTempo = 0; int posMenor = 0;
-	 * 
-	 * // enquanto existirem numeros aleatorios na lista while
-	 * (!numerosAleatorios.isEmpty()) {
-	 * 
-	 * if (fila.getAgora() == fila.getCap()) {
-	 * 
-	 * menorTempo = listaEvento.get(0).getTempo(); posMenor = 0; for (int i = 0; i <
-	 * listaEvento.size(); i++) { if (listaEvento.get(posMenor).getTempo() >
-	 * listaEvento.get(i).getTempo()) { menorTempo = listaEvento.get(i).getTempo();
-	 * posMenor = i; } }
-	 * 
-	 * // se evento n for saida if (listaEvento.get(posMenor).getTipo() == 1) {
-	 * perda++;
-	 * 
-	 * listaEvento.remove(posMenor); chegada(menorTempo); } else {
-	 * saida(menorTempo); listaEvento.remove(posMenor); }
-	 * 
-	 * } else { // caso fila nao cheia menorTempo = listaEvento.get(0).getTempo();
-	 * posMenor = 0; for (int i = 0; i < listaEvento.size(); i++) { if
-	 * (listaEvento.get(posMenor).getTempo() > listaEvento.get(i).getTempo()) {
-	 * menorTempo = listaEvento.get(i).getTempo(); posMenor = i; }
-	 * 
-	 * }
-	 * 
-	 * // chegada if (listaEvento.get(posMenor).getTipo() == 1) {
-	 * 
-	 * chegada(menorTempo); listaEvento.remove(posMenor);
-	 * 
-	 * } // saida else if (listaEvento.get(posMenor).getTipo() == 0) {
-	 * saida(menorTempo); listaEvento.remove(posMenor); } menorTempo = 0; posMenor =
-	 * 0; } } }
-	 * 
-	 * private static void ch1(double tempo) { int posFila = fila.getAgora();
-	 * contabilizaTempo(tempo);
-	 * 
-	 * if (fila.getAgora() < fila.getCap()) { fila.setAgora(posFila + 1); if
-	 * (fila.getAgora() <= fila.getServidores()) { agendaSaida(); } }
-	 * agendaChegada(); }
-	 * 
-	 * private static void p12(double tempo) { contabilizaTempo(tempo); int posFila
-	 * = fila.getAgora(); fila.setAgora(posFila - 1); if (fila.getAgora() >=
-	 * fila.getServidores()) { agendaSaida(); } }
-	 * 
-	 * private static void p23(double tempo) { contabilizaTempo(tempo); int posFila
-	 * = fila.getAgora(); fila.setAgora(posFila - 1); if (fila.getAgora() >=
-	 * fila.getServidores()) { agendaSaida(); } }
-	 * 
-	 * private static void sa1(double tempo) { contabilizaTempo(tempo); int posFila
-	 * = fila.getAgora(); fila.setAgora(posFila - 1); if (fila.getAgora() >=
-	 * fila.getServidores()) { agendaSaida(); } }
-	 * 
-	 * private static void sa2(double tempo) { contabilizaTempo(tempo); int posFila
-	 * = fila.getAgora(); fila.setAgora(posFila - 1); if (fila.getAgora() >=
-	 * fila.getServidores()) { agendaSaida(); } }
-	 * 
-	 * private static void agendaChegada() { double aux =
-	 * numerosAleatorios.remove(0); double result = tempoDecorrido +
-	 * (((fila.getTempoChegadaMax() - fila.getTempoChegadaMin()) * aux) +
-	 * fila.getTempoChegadaMin()); Evento e = new Evento(1, result);
-	 * listaEvento.add(e); }
-	 * 
-	 * private static void agendaSaida() { double aux = numerosAleatorios.remove(0);
-	 * double result = tempoDecorrido + (((fila.getTempoAtendimentoMax() -
-	 * fila.getTempoAtendimentoMin()) * aux) + fila.getTempoAtendimentoMin());
-	 * 
-	 * Evento e = new Evento(0, result); listaEvento.add(e);
-	 * 
-	 * }
-	 * 
-	 * private static void contabilizaTempo(double tempo) {
-	 * 
-	 * int aux = fila1.getAgora();
-	 * 
-	 * double tempoAnterior = tempoDecorrido; tempoDecorrido = tempo; double
-	 * posTemAux = tempoDecorrido - tempoAnterior; double tempoAux =
-	 * estadoFila.get(aux) + posTemAux; estadoFila.set(aux, tempoAux);
-	 * 
-	 * 
-	 * //filaSimples(fila, estInic);
-	 * 
-	 * for (int i = 0; i <= fila.getCap(); i++) {
-	 * 
-	 * System.out.println("Tempo total que " + i + " ficaram na fila: " +
-	 * estadoFila.get(i)); } System.out.println("perdas: " + perda);
-	 * System.out.println("tempo Total: " + tempoDecorrido); }
-	 */
 }

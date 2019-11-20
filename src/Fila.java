@@ -34,6 +34,10 @@ public class Fila {
 	public void maisUmaPerda() {
 		qtdPerda++;
 	}
+	
+	public int getQtdPerda() {
+		return qtdPerda;
+	}
 
 	public void setEstado(int index, double valor) {
 		estadoFila.set(index, valor);
