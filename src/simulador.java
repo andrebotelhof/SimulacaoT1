@@ -86,7 +86,7 @@ public class simulador {
 		double estInic = 2;// entrada.nextDouble();
 
 		// gera os aleatorios
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 100000; i++) {
 			numerosAleatorios.add(ger.recebeRandomEntre(0, 1));
 		}
 
@@ -103,7 +103,7 @@ public class simulador {
 
 		listaEvento.add(new Evento(Tipo.CH1, estInic));
 
-		while (contAleatUsado < numerosAleatorios.size()) {
+		while (contAleatUsado < numerosAleatorios.size()-2) {
 			ArrayList<Evento> temp = new ArrayList<Evento>();
 			for (Evento e : listaEvento) {
 				if (e.isExec() == false) {
