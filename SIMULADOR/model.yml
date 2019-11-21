@@ -55,7 +55,7 @@ network:
    target: Q3
    probability: 0.8
 
-rndnumbersPerSeed: 100000
+rndnumbersPerSeed: 1000
 seeds: 
 - 1
 - 2
